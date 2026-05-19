@@ -1,0 +1,28 @@
+services:
+  # Backend API
+  - type: web
+    name: smart-complaint-backend
+    runtime: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: MONGO_URI
+        value: mongodb+srv://complaintAdmin:ComplaintApp2025@cluster0.az6zcih.mongodb.net/complaintDB?retryWrites=true&w=majority
+      - key: JWT_SECRET
+        value: smartcomplaint_jwt_secret_key_2025
+      - key: GEMINI_API_KEY
+        value: ""
+      - key: NODE_ENV
+        value: production
+
+  # Frontend Static Site
+  - type: web
+    name: smart-complaint-frontend
+    runtime: static
+    plan: free
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://smart-complaint-backend.onrender.com/api
